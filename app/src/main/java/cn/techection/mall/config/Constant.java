@@ -5,7 +5,7 @@ public class Constant {
     public static class API{
         //基地址
        // public static final String BASE_URL="http://106.55.44.114/actionmall/mgr/";
-       public static final String BASE_URL="http://112.124.25.54:8080/mall/";
+       public static final String BASE_URL="http://39.97.173.123:8080//actionmall/";
         //public static final String BASE_URL="http://106.55.153.126:8080/mall/";
         //产品类型参数地址
         public static final String CATEGORY_PARAM_URL=BASE_URL+"param/findallparams.do";
