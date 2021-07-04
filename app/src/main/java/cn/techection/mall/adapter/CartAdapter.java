@@ -84,8 +84,10 @@ public class CartAdapter
         });
         if(cartItem.isEdit()){
             holder.btn_del.setVisibility(View.VISIBLE);
+            holder.btn_clear.setVisibility(View.VISIBLE);
         }else{
             holder.btn_del.setVisibility(View.GONE);
+            holder.btn_clear.setVisibility(View.GONE);
         }
 
         holder.btn_del.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +95,14 @@ public class CartAdapter
             public void onClick(View v) {
                 if(onCartOptListener!=null){
                     onCartOptListener.delProductFromCart(cartItem.getProductId());
+                }
+            }
+        });
+        holder.btn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onCartOptListener!=null){
+                    onCartOptListener.clearProduct();
                 }
             }
         });
@@ -121,12 +131,14 @@ public class CartAdapter
         public EditText edit_num;
         public TextView btn_jia;
         public TextView btn_del;
+        public TextView btn_clear;
         public CartViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             name = (TextView)itemView.findViewById(R.id.name);
             price = (TextView)itemView.findViewById(R.id.price);
             btn_del=(TextView)itemView.findViewById(R.id.btn_del);
+            btn_clear=(TextView)itemView.findViewById(R.id.clear_btn);
             icon_url=(ImageView)itemView.findViewById(R.id.icon_url);
             btn_jia=(TextView)itemView.findViewById(R.id.btn_jia);
             btn_jian=(TextView)itemView.findViewById(R.id.btn_jian);
@@ -140,5 +152,9 @@ public class CartAdapter
 
         //删除商品
         public void delProductFromCart(int productId);
+
+        //清空商品
+        public void clearProduct();
+        //layout添加按钮，adapter添加
     }
 }

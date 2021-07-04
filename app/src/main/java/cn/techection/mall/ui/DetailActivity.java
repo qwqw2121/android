@@ -120,9 +120,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         int inputNum = Integer.valueOf(num.getText().toString());
+         ConfirmOrderActivity co=new ConfirmOrderActivity();
         switch (view.getId()) {
             case R.id.cart_btn:
                 addProduct2cart();
+                break;
+            case R.id.buy_btn:
+                co.submitOrder();
                 break;
             case R.id.btn_jia:
                 if (inputNum + 1 <= product.getStock()) {

@@ -47,6 +47,7 @@ public class CartFragment extends Fragment {
 
     private TextView total;
     private TextView btn_buy;
+    private TextView btn_clear;
     private BigDecimal  totals =BigDecimal.valueOf(0);
     private boolean isEdit = false;
 
@@ -105,7 +106,7 @@ public class CartFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.cart_rv);
         total = (TextView) view.findViewById(R.id.total);
         btn_buy = (TextView) view.findViewById(R.id.buy_btn);
-
+        btn_clear=(TextView) view.findViewById(R.id.clear_btn);
         mData = new ArrayList<>();
         cartAdapter = new CartAdapter(getActivity(), mData);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -121,6 +122,9 @@ public class CartFragment extends Fragment {
             public void delProductFromCart(int productId) {
                 delProductById(productId);
             }
+
+            @Override
+            public void clearProduct() { clearProduct(); }
         });
 
         view.findViewById(R.id.edit_btn).setOnClickListener(new View.OnClickListener() {
@@ -191,9 +195,7 @@ public class CartFragment extends Fragment {
                             totals =BigDecimal.valueOf(0);
                             for(int i=0;i<mData.size();i++){
 
-
                                 BigDecimal m = mData.get(i).getPrice().multiply(BigDecimal.valueOf(mData.get(i).getQuantity()));
-
                                 totals = totals.add(m);
                             }
                             total.setText("合计：￥" + totals);
@@ -205,6 +207,7 @@ public class CartFragment extends Fragment {
                 });
     }
 
+    //更新购物中商品的数量
     private void updateProduct(int productId, int count) {
         OkHttpUtils.get()
                 .url(Constant.API.CART_UPDATE_URL)
@@ -226,10 +229,6 @@ public class CartFragment extends Fragment {
                             if (result.getData().getLists() != null) {
                             mData.clear();
                             }
-
-
-
-
                         }
                     }
                 });
@@ -248,29 +247,48 @@ loadCartData();
                     public void onError(Call call, Exception e, int id) {
 
                     }
-
                     @Override
                     public void onResponse(String response, int id) {
                         Type type = new TypeToken<SverResponse<Cart>>() {
                         }.getType();
                         SverResponse<Cart> result = JSONutils.fromJson(response, type);
                         if (result.getStatus() == ResponeCode.SUCESS.getCode()) {
-
-
-
                             if (result.getData().getLists() != null) {
                                 mData.clear();
                                 mData.addAll(result.getData().getLists());
                                 cartAdapter.notifyDataSetChanged();
                             }
-
-
                         }
                     }
 
                 });
             loadCartData();
-
     }
+    //清空商品
+    private void clearProduct() {
+        OkHttpUtils.post()
+                .url(Constant.API.CART_CLEAR_URL)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
+                    }
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Type type = new TypeToken<SverResponse<Cart>>() {
+                        }.getType();
+                        SverResponse<Cart> result = JSONutils.fromJson(response, type);
+                        if (result.getStatus() == ResponeCode.SUCESS.getCode()) {
+                            if (result.getData().getLists() != null) {
+                                mData.clear();
+                                mData.addAll(result.getData().getLists());
+                                cartAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+                });
+        loadCartData();
+    }
 }

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@drawable/detail_product_top_background"
-    tools:context=".ui.ConfiremOrderActivity">
+    tools:context="cn.techection.mall.ui.ConfirmOrderActivity">
     <ImageView
         android:id="@+id/icon_url"
         android:layout_width="100dp"

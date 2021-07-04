@@ -227,14 +227,12 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 });
     }
 
-    private void submitOrder() {
+    public void submitOrder() {
 
         if (defaultAddr == null) {
             Toast.makeText(this, "请选择收货地址!", Toast.LENGTH_LONG).show();
             return;
         }
-
-
 
         OkHttpUtils.post()
                 .url(Constant.API.ORDER_CREATED_URL)
